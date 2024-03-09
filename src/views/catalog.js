@@ -3,22 +3,19 @@ import * as catalogService from '../services/catalogService.js';
 import { itemTemplate } from './templates/item.js'
 
 const catalogTemplate = (items, user) => html`
-<h2>Fun Facts</h2>
-
-${items.length > 0
-        ? html`
-        <section id="dashboard">
-          <!-- Display a div with information about every post (if any)-->
-          ${items.map(item => itemTemplate(item, user))}
-        </section>`
-        : html`
-    <h2>No Fun Facts yet.</h2>
-    `}
+<h2>Albums</h2>
+<section id="dashboard">
+    <ul class="card-wrapper">
+        ${items.length > 0
+            ? items.map(item => itemTemplate(item, user))
+            : html`<h2>There are no albums added yet.</h2>`}
+    </ul>
+</section>
 `;
-    
+
 export const catalogView = (ctx) => {
     catalogService.getAll()
         .then(items => {
-            ctx.render(catalogTemplate(items= ctx.user))
+            ctx.render(catalogTemplate(items, ctx.user))
         })
 }
